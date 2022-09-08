@@ -3,8 +3,14 @@
 
 So, briefly, before this becomes a bigger tutorial, fork this project on Github. Fire up Rstudio, and run the following commands to make sure you have the appropriate packages installed. [`{steveproj}`](https://github.com/svmiller/steveproj) is not strictly required, but it will eventually become a shortcut toward generating this kind of project in Rstudio.
 
-```r
-packs <- c("targets", "stevedata", "tidyverse", "modelr", "stevemisc", "stevetemplates", "huxtable", "kableExtra", "flextable", "modelsummary")
+```{r, eval=F}
+packs <- c("targets", # <- main package of interest here
+           # Below: primary engines for documents
+           "rmarkdown", "bookdown", "stevetemplates", 
+           # Below: stuff for toy analysis example 
+           "stevedata", "tidyverse", "modelr", "stevemisc",
+           # Below: add-ons for formatting regression tables in ms.Rmd
+           "huxtable", "kableExtra", "flextable", "modelsummary")
 new_pack <- packs[!(packs %in% installed.packages()[,"Package"])]
 if(length(new_pack)) install.packages(new_pack)
 ```
