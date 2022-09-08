@@ -5,18 +5,21 @@ source("R/3-sims.R")
 source("R/_render.R")
 tar_option_set(packages = c("stevedata", "tidyverse", "modelr", "stevemisc"))
 list(
-  tar_target(data, prep()),
-  tar_target(model, analysis()),
-  tar_target(qis, {
-    data
-    model
+  tar_target(D, prep()),
+  tar_target(M, {
+    D
+    analysis()
+    }),
+  tar_target(S, {
+    D
+    M
     sims()
   }),
   tar_target(ms_rmd, "ms.Rmd", format = "file"),
   tar_target(ms_yaml, "ms.yaml", format = "file"),
-  tar_target(docs, {data
-    model
-    qis
+  tar_target(docs, {D
+    M
+    S
     ms_rmd
     ms_yaml
     render_pdf()
