@@ -36,7 +36,7 @@ If you want to do this interactively so you can monkey around with the main obje
 tar_load_globals()
 prep()
 analysis()
-sims()
+qi()
 ```
 
 
