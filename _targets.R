@@ -1,8 +1,5 @@
 library(targets)
-source("R/1-prep.R")
-source("R/2-analysis.R")
-source("R/3-qi.R")
-source("R/_render.R")
+sapply(list.files("R", full.names=TRUE), source)
 tar_option_set(packages = c("stevedata", "tidyverse", "modelr", "stevemisc"))
 list(
   tar_target(Data, prep()),
