@@ -1,26 +1,35 @@
-library(targets)
-sapply(list.files("R", full.names=TRUE), source)
+library(targets) # load {targets}
+sapply(list.files("R", full.names=TRUE), source) # load everything in R/ dir.
 tar_option_set(packages = c("stevedata", "tidyverse", "modelr", "stevemisc"))
+# ^ declare all packages needed to do my analysis
+# Specify workflow below
 list(
-  tar_target(Data, prep()),
-  tar_target(Mods, {
+  tar_target(Data, {
+    prep()
+    saveRDS(Data, "data/Data.rds")
+    }), # Finished data (Data) depends on prep()
+  tar_target(Mods, { # Regression models (Mods) depend on Data, analysis()
     Data
     analysis()
+    saveRDS(Mods, "data/Mods.rds")
     }),
-  tar_target(QI, {
+  tar_target(QI, { # QIs depend on Mods, Data, and qi() function
     Mods
     Data
     qi()
+    saveRDS(QI, "data/QI.rds")
   }),
+  # Next two are flat files (for the documents) and not functions or R objects.
   tar_target(ms_rmd, "ms.Rmd", format = "file"),
   tar_target(ms_yaml, "_config.yaml", format = "file"),
-  tar_target(docs, {Data
-    Mods
-    QI
-    ms_rmd
-    ms_yaml
-    render_pdf()
-    render_pdfanon()
-    render_docx()
+  # Finally: docs is an amalgam of outputs, depending on just about everything.
+  tar_target(docs, {Data # if data change, documents should change.
+    Mods # if models change, documents should change.
+    QI # if QIs change, documents should change
+    ms_rmd # if the (R Markdown) document should change, final docs should change
+    ms_yaml # if document preamble changes, final docs should change
+    render_pdf() # function to create nice, pretty PDF (in {stevetemplates})
+    render_pdfanon() # function to create anon. PDF (in {stevetemplates})
+    render_docx() # function to create Word doc, just in case.
     })
 )
