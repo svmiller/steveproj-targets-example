@@ -1,23 +1,24 @@
 library(targets) # load {targets}
 sapply(list.files("R", full.names=TRUE), source) # load everything in R/ dir.
-tar_option_set(packages = c("stevedata", "tidyverse", "modelr", "stevemisc"))
+tar_option_set(packages = c("stevedata", "tidyverse", "modelr", "stevemisc"),
+               tidy_eval = TRUE)
 # ^ declare all packages needed to do my analysis
 # Specify workflow below
 list(
   tar_target(Data, {
     prep()
-    saveRDS(Data, "data/Data.rds")
+    #saveRDS(Data, "data/Data.rds")
     }), # Finished data (Data) depends on prep()
   tar_target(Mods, { # Regression models (Mods) depend on Data, analysis()
+    analysis(Data)
     Data
-    analysis()
-    saveRDS(Mods, "data/Mods.rds")
+    #saveRDS(Mods, "data/Mods.rds")
     }),
   tar_target(QI, { # QIs depend on Mods, Data, and qi() function
     Mods
     Data
-    qi()
-    saveRDS(QI, "data/QI.rds")
+    qi(Data, Mods)
+    #saveRDS(QI, "data/QI.rds")
   }),
   # Next two are flat files (for the documents) and not functions or R objects.
   tar_target(ms_rmd, "ms.Rmd", format = "file"),

@@ -1,8 +1,6 @@
-qi <- function() {
+qi <- function(data = Data, mods = Mods) {
 
-
- #Mods <- readRDS("data/Mods.rds")
-# Data <- readRDS("data/Data.rds")
+  check_load(formals())
 
   Data %>%
     data_grid(lrscale = unique(lrscale), .model = Mods[[1]],
@@ -17,7 +15,8 @@ qi <- function() {
     bind_cols(get_sims(Mods[[1]], newdata = newdat,
                        1000, 8675309), .) -> QI$"SQI (Ideology)"
 
-  saveRDS(QI, "data/QI.rds")
-  QI <<- QI
-  return(QI)
+  # saveRDS(QI, "data/QI.rds")
+  # QI <<- QI
+  # return(QI)
+  save_global(QI)
 }
