@@ -23,13 +23,4 @@ check_load <- function(func_formals) {
 }
 
 
-save_global <- function(obj) {
 
-  save_location <- paste0("data/",substitute(obj),".rds")
-
-  saveRDS(obj, save_location)
-  #assign(obj, envir = .GlobalEnv)
-  obj <<- obj
-  return(obj)
-
-}

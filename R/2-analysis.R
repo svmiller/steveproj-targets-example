@@ -9,10 +9,10 @@ analysis <- function(data = Data) {
                     lrscale + noise, data=Data)
 
 
-  # saveRDS(Mods, "data/Mods.rds")
-  # Mods <<- Mods
-  # return(Mods)
+  saveRDS(Mods, "data/Mods.rds")
+  Mods <<- Mods
+  return(Mods)
   # #Mods
-  save_global(Mods)
+
 
 }

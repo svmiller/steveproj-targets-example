@@ -15,8 +15,7 @@ qi <- function(data = Data, mods = Mods) {
     bind_cols(get_sims(Mods[[1]], newdata = newdat,
                        1000, 8675309), .) -> QI$"SQI (Ideology)"
 
-  # saveRDS(QI, "data/QI.rds")
-  # QI <<- QI
-  # return(QI)
-  save_global(QI)
+  saveRDS(QI, "data/QI.rds")
+  QI <<- QI
+  return(QI)
 }
